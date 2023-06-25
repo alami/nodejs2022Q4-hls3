@@ -2,10 +2,15 @@ import { Repository } from 'typeorm';
 import { AlbumsEntity } from 'src/albums/entities/album.entity';
 import { ArtistsEntity } from 'src/artist/entities/artists.entity';
 import { TracksEntity } from 'src/track/entities/tracks.entity';
-
 export interface Payload {
   login: string;
   sub: string;
+}
+export interface PayloadData {
+  userId:string
+  login: string,
+  iat:number,
+  exp: number
 }
 export interface User {
   id: string; // uuid v4
