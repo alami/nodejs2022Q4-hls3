@@ -38,6 +38,7 @@ export class AuthService {
             })
         ]);
         return {
+            userId: id,
             accessToken: at,
             refreshToken: rt
         }
@@ -45,7 +46,7 @@ export class AuthService {
     async register(dto: AuthDto) {
         const now = Date.now().toString();
         const pswd = bcrypt.hashSync(dto.password, 10);
-        const newUser = {
+        const newUserDto = {
             login: dto.login,
             password: pswd,
             version: 1,
@@ -54,10 +55,11 @@ export class AuthService {
             refToken: null
         };
 
-        const user = this.db.users.create(newUser);
+        const user = this.db.users.create(newUserDto);
+        const newUser = await this.db.users.save(user)
         await this.db.users.save(user)
         return {
-            msg: 'User created'
+            id: newUser.id
         }
 
     }

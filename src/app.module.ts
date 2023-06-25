@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import {MiddlewareConsumer, Module, NestModule} from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -14,8 +14,8 @@ import { UsersEntity } from './users/entities/users.entity';
 import { TracksEntity } from './track/entities/tracks.entity';
 import { AlbumsEntity } from './albums/entities/album.entity';
 import { ArtistsEntity } from './artist/entities/artists.entity';
-
-
+import {LoggerModule} from "./logger/logger.module";
+import { LoggerMiddleware } from './logger/logger.middleware';
 @Module({
   imports: [
     UsersModule,
@@ -25,6 +25,7 @@ import { ArtistsEntity } from './artist/entities/artists.entity';
     AlbumsModule,
     TrackModule,
     FavoritesModule,
+    LoggerModule,
     ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
       type: 'postgres',
@@ -41,4 +42,10 @@ import { ArtistsEntity } from './artist/entities/artists.entity';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+        .apply(LoggerMiddleware)
+        .forRoutes('*');
+  }
+}

@@ -4,9 +4,13 @@ import { SwaggerModule } from '@nestjs/swagger';
 import * as yaml from 'js-yaml';
 import { readFile } from 'node:fs/promises';
 import { ConfigService } from '@nestjs/config';
+import {MyLogger} from "./logger/mylogger.service";
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule,{
+    bufferLogs: true,
+  });
+  app.useLogger(app.get(MyLogger));
   const configService = app.get(ConfigService);
   const HTTPPORT = configService.get<number>('HTTPPORT') || 4000;
   const document: any = yaml.load(
