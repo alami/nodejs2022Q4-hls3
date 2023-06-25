@@ -5,6 +5,7 @@ import * as yaml from 'js-yaml';
 import { readFile } from 'node:fs/promises';
 import { ConfigService } from '@nestjs/config';
 import {MyLogger} from "./logger/mylogger.service";
+import {logger} from "./logger/logger";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule,{
@@ -24,3 +25,9 @@ async function bootstrap() {
   await app.listen(HTTPPORT);
 }
 bootstrap();
+process.on('unhandledRejection', (reason, promise) => {
+  logger(`${promise}, ${reason}`, '','ERROR')
+})
+process.on('uncaughtException', (err, origin) => {
+  logger( `${err}` + `${origin}`, '', 'ERROR')
+})
