@@ -8,16 +8,19 @@ import { AlbumsModule } from './albums/albums.module';
 import { TrackModule } from './track/track.module';
 import { FavoritesModule } from './favorites/favorites.module';
 import { DbModule } from './models/db.module';
+import { AuthModule } from './auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersEntity } from './users/entities/users.entity';
 import { TracksEntity } from './track/entities/tracks.entity';
 import { AlbumsEntity } from './albums/entities/album.entity';
 import { ArtistsEntity } from './artist/entities/artists.entity';
 
+
 @Module({
   imports: [
     UsersModule,
     DbModule,
+    AuthModule,
     ArtistModule,
     AlbumsModule,
     TrackModule,
