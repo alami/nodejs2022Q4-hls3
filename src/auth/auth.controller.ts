@@ -6,10 +6,12 @@ import {AuthRefTokenDto} from "./dto/AuthRefTokenDto";
 export class AuthController {
     constructor(private authService: AuthService) {}
     @Post('login')
+    @HttpCode(201)
     loginPlatform(@Body(new ValidationPipe()) body: AuthDto) {
         return this.authService.login(body);
     }
     @Post('signup')
+    @HttpCode(200)
     createProfile(@Body(new ValidationPipe()) body: AuthDto) {
         return this.authService.register(body)
     }

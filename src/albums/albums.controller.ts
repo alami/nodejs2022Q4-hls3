@@ -12,9 +12,11 @@ import {
   ParseUUIDPipe,
   Post,
   Put,
+  UseGuards,
   ValidationPipe,
 } from '@nestjs/common';
-
+import {AccessTokenGuard} from "../Guard/AccessTokenGuard";
+@UseGuards(AccessTokenGuard)
 @Controller('album')
 export class AlbumsController {
   constructor(private albumsService: AlbumsService) {}

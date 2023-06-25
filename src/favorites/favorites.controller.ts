@@ -9,10 +9,13 @@ import {
   Param,
   ParseUUIDPipe,
   Post,
+  UseGuards,
 } from '@nestjs/common';
+import {AccessTokenGuard} from "../Guard/AccessTokenGuard";
 
+@UseGuards(AccessTokenGuard)
 @Controller('favs')
-export class FavaritesController {
+export class FavoritesController {
   constructor(private favService: FavoritesService) {}
 
   @Get()
