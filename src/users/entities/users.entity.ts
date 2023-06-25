@@ -1,5 +1,4 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
-
 @Entity()
 export class UsersEntity {
   @PrimaryGeneratedColumn('uuid')
@@ -19,4 +18,7 @@ export class UsersEntity {
 
   @Column()
   updatedAt: string;
+
+  @Column({nullable: true})
+  refToken: string;
 }

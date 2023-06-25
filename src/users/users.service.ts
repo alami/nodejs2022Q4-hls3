@@ -5,6 +5,8 @@ import { v4 as uuidv4 } from 'uuid';
 import { DbService } from '../models/db.service';
 import { Inject } from '@nestjs/common/decorators';
 import { UsersEntity } from './entities/users.entity';
+import * as bcrypt from 'bcrypt'
+
 
 @Injectable()
 export class UsersService {
@@ -30,10 +32,11 @@ export class UsersService {
 
   async create(dto: CreateUserDto) {
     const now = Date.now().toString();
+    const pswd = bcrypt.hashSync(dto.password, 10);
     const newUser = {
       id: uuidv4(),
       login: dto.login,
-      password: dto.password,
+      password: pswd,
       version: 1,
       createdAt: now,
       updatedAt: now,
@@ -51,6 +54,7 @@ export class UsersService {
 
   async updateOne(id: string, dto: UserUpdateDto) {
     const user = await this.db.users.findOneBy({ id });
+    const isValid = bcrypt.compareSync(dto.oldPassword, user.password)
     if (!user) {
       return undefined;
     }
@@ -60,7 +64,7 @@ export class UsersService {
     const updUser = {
       id: user.id,
       login: user.login,
-      password: dto.newPassword,
+      password: bcrypt.hashSync(dto.newPassword, 10),
       version: ++user.version,
       createdAt: user.createdAt,
       updatedAt: new Date().getTime().toString(),
