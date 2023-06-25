@@ -12,6 +12,8 @@ WORKDIR /nodejs2022q4/app/src
 # where available (npm@5+)
 COPY package*.json .
 
+RUN npm cache clean --force && rm -rf node_modules
+
 RUN npm install --force
 # If you are building your code for production
 # RUN npm ci --only=production

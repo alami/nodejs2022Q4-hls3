@@ -13,10 +13,9 @@ export class AuthService {
     ) {}
     async login(dto: AuthDto) {
         const user = await this.db.users.findOne({where: {login: dto.login}});
+        if(!user) throw new ForbiddenException()
         const isValid = bcrypt.compareSync(dto.password, user.password);
-        if(!user && !isValid) {
-            throw new ForbiddenException()
-        }
+        if(!isValid) throw new ForbiddenException()
         const tokens = await this.getToken(user.id, user.login);
         await this.refTokenChangeToHush(user.id, tokens.refreshToken);
         return tokens;

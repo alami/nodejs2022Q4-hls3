@@ -17,7 +17,6 @@ import {
 } from '@nestjs/common';
 import {AccessTokenGuard} from "../Guard/AccessTokenGuard";
 
-@UseGuards(AccessTokenGuard)
 @Controller('track')
 export class TracksController {
   constructor(private tracksService: TracksService) {}
