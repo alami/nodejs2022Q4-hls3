@@ -13,6 +13,7 @@ import {
 } from '@nestjs/common';
 import {AccessTokenGuard} from "../Guard/AccessTokenGuard";
 
+@UseGuards(AccessTokenGuard)
 @Controller('favs')
 export class FavoritesController {
   constructor(private favService: FavoritesService) {}

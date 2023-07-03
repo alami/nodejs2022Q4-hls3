@@ -16,6 +16,7 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import {AccessTokenGuard} from "../Guard/AccessTokenGuard";
+@UseGuards(AccessTokenGuard)
 @Controller('artist')
 export class ArtistsController {
   constructor(private artistsService: ArtistService) {}
